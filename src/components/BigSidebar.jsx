@@ -42,6 +42,7 @@ const Wrapper = styled.aside`
       width: 300px;
       transition: var(--transition);
       position: fixed;
+      top: 0;
       .board-container {
         height: 420px;
         // overflow-y: scroll;

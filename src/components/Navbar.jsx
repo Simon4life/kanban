@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
+import AddNewBoardForm from "./AddNewBoardForm"
 import { GoPlus } from "react-icons/go";
 import { FaCaretDown } from "react-icons/fa";
 import { useBoardContext } from "../context/board_context";
@@ -12,6 +13,7 @@ const Navbar = () => {
   const [screenSize, setScreenSize] = useState(window.innerWidth);
   const [showDropdown, setShowDropdown] = useState(false);
   const [boardTitle, setBoardTitle] = useState("");
+
   useEffect(() => {
     if (boards[boardIndex]) {
       setBoardTitle(boards[boardIndex].boardTitle);
@@ -51,6 +53,7 @@ const Navbar = () => {
                     {item.boardTitle}
                   </button>
                 ))}
+                <AddNewBoardForm/>
               </div>
             </div>
           ) : (
@@ -139,7 +142,6 @@ const Wrapper = styled.nav`
     padding: 0.5rem;
     text-align: center;
     overflow: hidden;
-    height: 0;
     visibility: hidden;
     border-radius: var(--borderRadius);
   }

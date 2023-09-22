@@ -43,7 +43,6 @@ export const BoardProvider = ({ children }) => {
     if(user) {
       try {
         const res = await CustomFetch.get("/api/v1/boards");
-        
         dispatch({ type: "GET_BOARDS", payload: res.data });
       } catch (error) {
         console.log(error);

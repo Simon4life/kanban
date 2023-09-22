@@ -16,7 +16,15 @@ const AddNewBoardForm = () => {
   
   return (
     <Wrapper>
-      <form className="form" onSubmit={(e) => e.preventDefault()}>
+      <form className="form" onSubmit={(e) => {
+          e.preventDefault();
+          if (boardTitle === "") {
+            setIsCreating(!isCreating);
+            return;
+          }
+          handleSubmit();
+          setIsCreating(false);
+        }}>
         {isCreating && (
           <input
             type="text"
@@ -26,15 +34,7 @@ const AddNewBoardForm = () => {
         )}
         <button
           className="btn"
-          type="button"
-          onClick={(e) => {
-            if (boardTitle === "") {
-              setIsCreating(!isCreating);
-              return;
-            }
-            handleSubmit();
-            setIsCreating(false);
-          }}
+          type="submit"
         >
           Create New Board
         </button>
