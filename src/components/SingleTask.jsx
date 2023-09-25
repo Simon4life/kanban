@@ -10,10 +10,10 @@ const SingleTask = ({ title, description, status, subtasks, _id: taskId }) => {
     boardIndex,
     closeEditingModal,
     updateTask,
-    getAllTask,
     isTaskEditingLoading,
     toggleLoading,
   } = useBoardContext();
+
   const [values, setValues] = useState({ status, subtasks });
   const refContainer = useRef(null);
 
@@ -23,6 +23,7 @@ const SingleTask = ({ title, description, status, subtasks, _id: taskId }) => {
       const checkBoxes = refContainer.current.querySelectorAll("input");
 
       let newSubtaskArr = [];
+
       for (let i = 0; i < checkBoxes.length; i++) {
         if (checkBoxes[i].id == values.subtasks[i].id) {
           newSubtaskArr.push({
@@ -33,15 +34,29 @@ const SingleTask = ({ title, description, status, subtasks, _id: taskId }) => {
         }
       }
 
-      const val = newSubtaskArr.every((item) => {
+      let doingVals = []
+
+      const doneVals = newSubtaskArr.every((item) => {
         return item.completed;
       });
 
-      if (val) {
+      const todoVals = newSubtaskArr.every((item) => {
+        return item.completed === false;
+      });
+      console.log(todoVals)
+
+      doingVals = newSubtaskArr.map(item => {
+        return doingVals.push(item.completed);
+      })
+
+      if (doneVals) {
         setValues({ subtasks: newSubtaskArr, status: "Done" });
-      } else {
-        setValues({ ...values, subtasks: newSubtaskArr });
+      } else if(doingVals.length > 0) {
+        setValues({ ...values, subtasks: newSubtaskArr, status: "Doing" });
+      } else if(todoVals) {
+        setValues({ ...values, subtasks: newSubtaskArr, status: "Todo" });
       }
+
     } else {
       const value = e.target.value;
 
@@ -49,14 +64,12 @@ const SingleTask = ({ title, description, status, subtasks, _id: taskId }) => {
     }
   };
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = (e) => {
     toggleLoading();
     e.preventDefault();
     const boardId = boards[boardIndex]._id;
     const updatedTask = { title, description, ...values };
-    await updateTask(boardId, taskId, updatedTask).then(() =>
-      getAllTask(boardId)
-    );
+    updateTask(boardId, taskId, updatedTask)
   };
 
   return (

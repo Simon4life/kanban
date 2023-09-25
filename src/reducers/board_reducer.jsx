@@ -53,17 +53,18 @@ const board_reducer = (state, action) => {
   }
 
   if (action.type === "UPDATE_TASK_ARR") {
-    const board = state.boards.find((item) => item._id === action.payload.id);
+    const {boardID, taskArr} = action.payload;
+    const board = state.boards.find((item) => item._id === boardID);
     if (board) {
       const newBoardsArr = state.boards.map((item) => {
-        if (item._id === action.payload.id) {
-          return { ...item, tasks: action.payload.tasks };
+        if (item._id === boardID) {
+          return { ...item, tasks: taskArr };
         } else {
           return item;
         }
       });
 
-      return {
+      return { 
         ...state,
         boards: newBoardsArr,
         isModalOpen: false,

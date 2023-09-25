@@ -5,7 +5,7 @@ import Task from "./Task";
 import { Loading } from "./Loading";
 
 const Tasks = () => {
-  const { boards, boardIndex, isTaskLoading, updateTask } = useBoardContext();
+  const { boards, boardIndex, isTaskLoading, updateTask, isTaskEditingLoading } = useBoardContext();
   const [taskValues, setTaskValues] = useState([]);
 
   const getStatusNumbers = (status) => {
@@ -41,6 +41,15 @@ const Tasks = () => {
       setTaskValues([...tasks]);
     }
   }, [boardIndex, boards]);
+
+  useEffect(() => {
+    if (boards[boardIndex]) {
+      const { tasks } = boards[boardIndex];
+      console.log(boards[boardIndex].tasks)
+      setTaskValues([...tasks]);
+    }
+  }, [isTaskEditingLoading]);
+
   if (isTaskLoading) {
     return <Loading />;
   }

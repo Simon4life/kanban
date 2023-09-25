@@ -3,7 +3,7 @@ import styled from "styled-components";
 import { useBoardContext } from "../context/board_context";
 
 const AddNewBoardForm = () => {
-  const { addNewBoard } = useBoardContext();
+  const { addNewBoard, notifyUser } = useBoardContext();
   const [boardTitle, setBoardTitle] = useState("");
   const [isCreating, setIsCreating] = useState(false);
 
@@ -23,7 +23,9 @@ const AddNewBoardForm = () => {
             return;
           }
           handleSubmit();
+          
           setIsCreating(false);
+          
         }}>
         {isCreating && (
           <input

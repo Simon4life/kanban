@@ -4,6 +4,7 @@ import {
 } from "../utils/localStorage";
 import CustomFetch from "../utils/axios"
 import reducer from "../reducers/board_reducer";
+import { toast } from "react-toastify";
 
 const initialState = {
   isCreating: false,
@@ -56,8 +57,12 @@ export const BoardProvider = ({ children }) => {
       const res = await CustomFetch.post(
         "/api/v1/boards",
         boardVal,
-      );
-      console.log(res);
+      ).then((res) => {
+        notifyUser(`${boardVal.boardTitle} has been added to tasks list`)
+        return res
+
+      });
+      
       dispatch({ type: "ADD_NEW_BOARD", payload: res.data });
     } catch (error) {
       console.log(error);
@@ -70,7 +75,11 @@ export const BoardProvider = ({ children }) => {
     
     const res = await CustomFetch.post(`/api/v1/tasks/${boardId}`,
       task,
-    );
+    ).then((res) => {
+      notifyUser(`${task.title} has been added to tasks list`)
+      return res
+      
+    });
 
     dispatch({
       type: "UPDATE_TASK_ARR",
@@ -84,14 +93,17 @@ export const BoardProvider = ({ children }) => {
     dispatch({ type: "UPDATE_BOARD_INDEX", payload: idx });
   };
 
-  const updateTask = async (boardId, taskId, newTask) => {
-    const res = await CustomFetch.patch(`/api/v1/tasks/${boardId}/${taskId}`, newTask);
-    return res.data;
+  const updateTask = async (boardID, taskId, newTask) => {
+    await CustomFetch.patch(`/api/v1/tasks/${boardID}/${taskId}`, newTask)
+    const resp = await CustomFetch.get(`/api/v1/tasks/${boardID}`);
+    const {tasks: taskArr} = resp.data;
+    const taskVal = { taskArr, boardID }
+    dispatch({ type: "UPDATE_TASK_ARR", payload: taskVal })
   };
 
   const toggleLoading = () => {
     dispatch({ type: "TOGGLE_LOADING" });
-  };
+  }
 
   // fetch all tasks
   const getAllTask = async (boardID) => {
@@ -99,6 +111,7 @@ export const BoardProvider = ({ children }) => {
       const resp = await CustomFetch.get(`/api/v1/tasks/${boardID}`);
       const {taskArr, boardId} = resp.data;
       dispatch({type: "GET_ALL_TASK", payload: {taskArr, boardId}})
+      return resp.data;
     } catch (error) {
       console.log(error); 
     }
@@ -107,6 +120,19 @@ export const BoardProvider = ({ children }) => {
   const updateEditVal = (id) => {
     dispatch({ type: "UPDATE_EDIT_VAL", payload: id });
   };
+
+  const notifyUser = (msg) => {
+    toast(msg, {
+      position: "top-center",
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "dark",
+    });
+  }
 
   return (
     <BoardContext.Provider
@@ -124,6 +150,7 @@ export const BoardProvider = ({ children }) => {
         addNewTask,
         getAllTask,
         toggleLoading,
+        notifyUser
       }}
     >
       {children}

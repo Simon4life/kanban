@@ -8,9 +8,7 @@ const Modal = () => {
   const { isModalOpen } = useBoardContext();
   const { isEditing, isCreating, editVal } = useBoardContext();
   return (
-    <Wrapper
-      
-    >
+    <Wrapper>
       <div className={isModalOpen ? "modal-container show-modal" : "modal-container"}>
         {isCreating ? (
           <NewTaskForm />

@@ -1,12 +1,30 @@
 import React from "react";
 import styled from "styled-components";
+import {useBoardContext} from "../../context/board_context"
 import { BigSidebar, Navbar, Tasks, Modal } from "../../components";
+import { ToastContainer } from "react-toastify";
 
 const SharedLayout = () => {
+  const {isCreating} = useBoardContext();
   return (
     <Wrapper>
       <main className="dashboard">
-        <Modal />
+        <div>
+          <Modal/>
+          <ToastContainer
+            position="top-center"
+            autoClose={5000}
+            hideProgressBar={false}
+            newestOnTop={false}
+            closeOnClick
+            rtl={false}
+            pauseOnFocusLoss
+            draggable
+            pauseOnHover
+            theme="dark"
+          />
+        </div>
+        
         <div className="sidebar">
           <BigSidebar />
         </div>

@@ -16,8 +16,8 @@ const NewTaskForm = () => {
   const [taskValues, setTaskValues] = useState(initialState);
   const [subTaskCount, setSubTaskCount] = useState(2);
 
-  const { boardIndex, boards, closeCreatingModal, addNewTask, getAllTask } =
-    useBoardContext();
+  const { boardIndex, boards, closeCreatingModal, addNewTask, getAllTask, notifyUser } =
+  useBoardContext();
 
   const getTaskArr = () => {
     let taskArr = [];
@@ -64,7 +64,7 @@ const NewTaskForm = () => {
     e.preventDefault();
     const { title, description, subTask, status } = taskValues;
     if (!title || !description || !status) {
-      console.log("Please fill the form correctly");
+      notifyUser("Please fill the form correctly")
     } else {
       let err = false;
       for (let i = 0; i < subTaskCount; i++) {
@@ -73,7 +73,7 @@ const NewTaskForm = () => {
         }
       }
       if (err) {
-        console.log("oops there is an error");
+        notifyUser("oops! there seems to be an error")
       } else {
         if (boards[boardIndex]) {
           const tempObj = { title, description, subtasks: subTask, status };

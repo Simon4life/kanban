@@ -5,7 +5,7 @@ import Modal from "./Modal";
 import NewTaskForm from "./NewTaskForm";
 import AddNewBoardForm from "./AddNewBoardForm";
 import Tasks from "./Tasks";
-import Action from "./Action";
+
 
 export {
   FormRow,
@@ -15,5 +15,4 @@ export {
   NewTaskForm,
   AddNewBoardForm,
   Tasks,
-  Action,
 };
