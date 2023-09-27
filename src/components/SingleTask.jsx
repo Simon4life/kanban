@@ -34,27 +34,17 @@ const SingleTask = ({ title, description, status, subtasks, _id: taskId }) => {
         }
       }
 
-      let doingVals = []
-
-      const doneVals = newSubtaskArr.every((item) => {
-        return item.completed;
-      });
-
-      const todoVals = newSubtaskArr.every((item) => {
-        return item.completed === false;
-      });
-      console.log(todoVals)
-
-      doingVals = newSubtaskArr.map(item => {
-        return doingVals.push(item.completed);
-      })
-
-      if (doneVals) {
-        setValues({ subtasks: newSubtaskArr, status: "Done" });
-      } else if(doingVals.length > 0) {
-        setValues({ ...values, subtasks: newSubtaskArr, status: "Doing" });
-      } else if(todoVals) {
+      const taskStatus = newSubtaskArr.filter(item => item.completed);
+      const doneStatus = newSubtaskArr.every(item => item.completed);
+      
+      if(taskStatus.length < 1) {
         setValues({ ...values, subtasks: newSubtaskArr, status: "Todo" });
+      }else if(taskStatus.length > 0) {
+        setValues({ ...values, subtasks: newSubtaskArr, status: "Doing" });
+      }  
+
+      if (doneStatus) {
+        setValues({ ...values, subtasks: newSubtaskArr, status: "Done" });
       }
 
     } else {

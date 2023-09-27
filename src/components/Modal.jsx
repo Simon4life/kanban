@@ -3,19 +3,36 @@ import styled from "styled-components";
 import { useBoardContext } from "../context/board_context";
 import NewTaskForm from "./NewTaskForm";
 import SingleTask from "./SingleTask";
+import { ToastContainer } from "react-toastify";
 
 const Modal = () => {
   const { isModalOpen } = useBoardContext();
   const { isEditing, isCreating, editVal } = useBoardContext();
+
   return (
     <Wrapper>
-      <div className={isModalOpen ? "modal-container show-modal" : "modal-container"}>
+      
         {isCreating ? (
+        <div className={isModalOpen ? "modal-container show-modal" : "modal-container"}>
           <NewTaskForm />
+        </div>
         ) : isEditing ? (
+          <div className={isModalOpen ? "modal-container show-modal" : "modal-container"}>
           <SingleTask {...editVal} />
-        ) : null}
-      </div>
+          </div>
+          ) : <ToastContainer
+            position="top-center"
+            autoClose={5000}
+            hideProgressBar={false}
+            newestOnTop={false}
+            closeOnClick
+            rtl={false}
+            pauseOnFocusLoss
+            draggable
+            pauseOnHover
+            theme="dark"
+          />}
+      
       
     </Wrapper>
   );
@@ -31,9 +48,9 @@ const Wrapper = styled.div`
   z-index: -999;
   display: flex;
   justify-content: center;
-  place-items: center;
+  // place-items: center;
   visibility: hidden;
-  height: 100vh;
+  // height: 100vh;
 }
 .show-modal {
   z-index: 1000;

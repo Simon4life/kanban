@@ -42,14 +42,6 @@ const Tasks = () => {
     }
   }, [boardIndex, boards]);
 
-  useEffect(() => {
-    if (boards[boardIndex]) {
-      const { tasks } = boards[boardIndex];
-      console.log(boards[boardIndex].tasks)
-      setTaskValues([...tasks]);
-    }
-  }, [isTaskEditingLoading]);
-
   if (isTaskLoading) {
     return <Loading />;
   }
@@ -125,7 +117,8 @@ const Wrapper = styled.div`
   .tasks-container {
     padding: 1.5rem;
     width: 100%;
-    // overflow: scroll;
+    // position: fixed;
+    overflow: scroll;
     height: calc(100vh - 5rem);
     header {
       width: 100%;
