@@ -71,34 +71,41 @@ export const BoardProvider = ({ children }) => {
 
   // create task
   const addNewTask = async (task) => {
-    const boardId = state.boards[state.boardIndex]._id;
-    
-    const res = await CustomFetch.post(`/api/v1/tasks/${boardId}`,
+    const boardID = state.boards[state.boardIndex]._id;
+
+    await CustomFetch.post(`/api/v1/tasks/${boardID}`,
       task,
     ).then((res) => {
-      notifyUser(`${task.title} has been added to tasks list`)
-      return res
+      const taskArr = res.data.tasks.tasks
+      dispatch({type: "UPDATE_TASK_ARR", payload: {taskArr, boardID}})
+      notifyUser(`${task.title} has been added to tasks list`) 
       
     });
 
-    dispatch({
-      type: "UPDATE_TASK_ARR",
-      payload: {
-        id: state.boards[state.boardIndex]._id,
-        tasks: res.data.tasks.tasks,
-      },
+  };
+
+  // delete task
+  const deleteTask = async (taskId) => {
+    const boardId = state.boards[state.boardIndex]._id;
+    
+    await CustomFetch.delete(`/api/v1/tasks/${boardId}/${taskId}`
+    ).then(() => {
+      notifyUser(`has been deleted from tasks list`)
+      dispatch({type: "REMOVE_TASK", payload: {taskId, boardId}})
     });
+  
   };
   const updateBoardIndex = (idx) => {
     dispatch({ type: "UPDATE_BOARD_INDEX", payload: idx });
   };
 
   const updateTask = async (boardID, taskId, newTask) => {
-    await CustomFetch.patch(`/api/v1/tasks/${boardID}/${taskId}`, newTask)
-    const resp = await CustomFetch.get(`/api/v1/tasks/${boardID}`);
-    const {tasks: taskArr} = resp.data;
-    const taskVal = { taskArr, boardID }
-    dispatch({ type: "UPDATE_TASK_ARR", payload: taskVal })
+    await CustomFetch.patch(`/api/v1/tasks/${boardID}/${taskId}`, newTask).then( async () => {
+      const res = await CustomFetch.get(`/api/v1/tasks/${boardID}`)
+      const {tasks: taskArr} = res.data
+      dispatch({ type: "UPDATE_TASK_ARR", payload: {taskArr, boardID} })
+    })
+
   };
 
   const toggleLoading = () => {
@@ -109,8 +116,8 @@ export const BoardProvider = ({ children }) => {
   const getAllTask = async (boardID) => {
     try {
       const resp = await CustomFetch.get(`/api/v1/tasks/${boardID}`);
-      const {taskArr, boardId} = resp.data;
-      dispatch({type: "GET_ALL_TASK", payload: {taskArr, boardId}})
+      const {tasks} = resp.data;
+      dispatch({type: "GET_ALL_TASK", payload: {tasks, boardID}})
       return resp.data;
     } catch (error) {
       console.log(error); 
@@ -150,6 +157,7 @@ export const BoardProvider = ({ children }) => {
         addNewTask,
         getAllTask,
         toggleLoading,
+        deleteTask,
         notifyUser
       }}
     >

@@ -79,7 +79,7 @@ const NewTaskForm = () => {
           const tempObj = { title, description, subtasks: subTask, status };
 
           addNewTask(tempObj);
-          getAllTask(boards[boardIndex]._id);
+          // getAllTask(boards[boardIndex]._id);
           setTaskValues({ ...initialState, subTask: getTaskArr() });
           closeCreatingModal();
         }

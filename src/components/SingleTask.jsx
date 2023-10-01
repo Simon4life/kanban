@@ -11,6 +11,7 @@ const SingleTask = ({ title, description, status, subtasks, _id: taskId }) => {
     closeEditingModal,
     updateTask,
     isTaskEditingLoading,
+    deleteTask,
     toggleLoading,
   } = useBoardContext();
 
@@ -59,6 +60,7 @@ const SingleTask = ({ title, description, status, subtasks, _id: taskId }) => {
     e.preventDefault();
     const boardId = boards[boardIndex]._id;
     const updatedTask = { title, description, ...values };
+    console.log("hello")
     updateTask(boardId, taskId, updatedTask)
   };
 
@@ -127,7 +129,8 @@ const SingleTask = ({ title, description, status, subtasks, _id: taskId }) => {
         </select>
 
         <div className="btn-container">
-          <button className="btn">Save</button>
+          <button type="button" className="btn btn-danger first" onClick={() => deleteTask(taskId)}>Delete</button>
+          <button type="submit" className="btn">Save</button>
         </div>
         {isTaskEditingLoading ? <SmallLoading /> : null}
       </form>
@@ -213,9 +216,14 @@ const Wrapper = styled.div`
     }
   }
   .btn-container {
-    margin-top: 1.8rem;
-    text-align: right;
+    display: flex;
+    position: relative;
+    left: 17rem;
+    .btn {
+      display: inline-block;
+    }
   }
+
   .form-select {
     background: var(--light-black-bcg);
     padding: 0.5rem;

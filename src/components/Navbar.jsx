@@ -8,8 +8,10 @@ import { removeUserFromLocalStorage } from "../utils/localStorage";
 import { Link } from "react-router-dom";
 
 const Navbar = () => {
+
   const { openCreatingModal, boards, boardIndex, updateBoardIndex } =
     useBoardContext();
+    
   const [screenSize, setScreenSize] = useState(window.innerWidth);
   const [showDropdown, setShowDropdown] = useState(false);
   const [boardTitle, setBoardTitle] = useState("");

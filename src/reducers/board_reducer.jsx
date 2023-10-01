@@ -73,16 +73,17 @@ const board_reducer = (state, action) => {
     }
     return { ...state };
   }
+  
   if (action.type === "TOGGLE_LOADING") {
     return { ...state, isTaskEditingLoading: !state.isTaskEditingLoading };
   }
   if (action.type === "GET_ALL_TASK") {
-    const { taskArr, boardId } = action.payload;
-    const newBoardArr = state.boards.map((item) => {
-      if (item._id === boardId) {
-        return { ...item, tasks: taskArr };
+    const { taskArr, boardID } = action.payload;
+    const newBoardArr = state.boards.map((board) => {
+      if (board._id === boardID) {
+        return { ...board, tasks: taskArr };
       } else {
-        return item;
+        return board;
       }
     });
 
@@ -93,6 +94,25 @@ const board_reducer = (state, action) => {
       isModalOpen: false,
       isEditing: false,
     };
+  }
+
+  if(action.type === "REMOVE_TASK") {
+    const {taskId, boardId} = action.payload;
+
+    const taskArr = state.boards[state.boardIndex].tasks.filter(task => {
+      return task._id !== taskId;
+    });
+
+    const boardArr = state.boards.map(board => {
+      if(board._id === boardId) {
+        return {...board, tasks: taskArr}
+      } else {
+        return board;
+      }
+    })
+
+    return {...state, boards: boardArr, isEditing: false}
+
   }
   return state;
 };
