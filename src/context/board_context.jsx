@@ -1,11 +1,8 @@
 import React, { useContext, useReducer } from "react";
-import {
-  getUserFromLocalStorage,
-} from "../utils/localStorage";
 import CustomFetch from "../utils/axios"
 import reducer from "../reducers/board_reducer";
 import { toast } from "react-toastify";
-
+import { useUserContext } from "./user_context";
 const initialState = {
   isCreating: false,
   isModalOpen: false,
@@ -23,7 +20,7 @@ const BoardContext = React.createContext();
 
 export const BoardProvider = ({ children }) => {
   const [state, dispatch] = useReducer(reducer, initialState);
-
+  const {user} = useUserContext()
   const openCreatingModal = () => {
     dispatch({ type: "OPEN_CREATING_MODAL" });
   };
@@ -40,21 +37,19 @@ export const BoardProvider = ({ children }) => {
 
   // fetch boards
   const getBoards =  async () => {
-    const user = getUserFromLocalStorage();
-    if(user) {
-      try {
-        const res = await CustomFetch.get("/api/v1/boards");
-        dispatch({ type: "GET_BOARDS", payload: res.data });
-      } catch (error) {
-        console.log(error);
-      }
-    } 
+    try {
+      const res = await CustomFetch(user?.accessToken).get("/api/v1/boards");
+      dispatch({ type: "GET_BOARDS", payload: res.data });
+      return res.data;
+    } catch (error) {
+      console.log(error);
+    }
   };
   
   // create board
   const addNewBoard = async (boardVal) => {
     try {
-      const res = await CustomFetch.post(
+      const res = await CustomFetch(user?.accessToken).post(
         "/api/v1/boards",
         boardVal,
       ).then((res) => {
@@ -73,11 +68,11 @@ export const BoardProvider = ({ children }) => {
   const addNewTask = async (task) => {
     const boardID = state.boards[state.boardIndex]._id;
 
-    await CustomFetch.post(`/api/v1/tasks/${boardID}`,
+    await CustomFetch(user?.accessToken).post(`/api/v1/tasks/${boardID}`,
       task,
     ).then((res) => {
       const taskArr = res.data.tasks.tasks
-      dispatch({type: "UPDATE_TASK_ARR", payload: {taskArr, boardID}})
+      dispatch({type: "UPDATE_TASK_ARR", payload: {taskArr, boardID}});
       notifyUser(`${task.title} has been added to tasks list`) 
       
     });
@@ -88,11 +83,12 @@ export const BoardProvider = ({ children }) => {
   const deleteTask = async (taskId) => {
     const boardId = state.boards[state.boardIndex]._id;
     
-    await CustomFetch.delete(`/api/v1/tasks/${boardId}/${taskId}`
-    ).then(() => {
-      notifyUser(`has been deleted from tasks list`)
-      dispatch({type: "REMOVE_TASK", payload: {taskId, boardId}})
-    });
+    await CustomFetch(user?.accessToken)
+      .delete(`/api/v1/tasks/${boardId}/${taskId}`)
+      .then(() => {
+        notifyUser(`has been deleted from tasks list`);
+        dispatch({ type: "REMOVE_TASK", payload: { taskId, boardId } });
+      });
   
   };
   const updateBoardIndex = (idx) => {
@@ -100,11 +96,13 @@ export const BoardProvider = ({ children }) => {
   };
 
   const updateTask = async (boardID, taskId, newTask) => {
-    await CustomFetch.patch(`/api/v1/tasks/${boardID}/${taskId}`, newTask).then( async () => {
-      const res = await CustomFetch.get(`/api/v1/tasks/${boardID}`)
-      const {tasks: taskArr} = res.data
-      dispatch({ type: "UPDATE_TASK_ARR", payload: {taskArr, boardID} })
-    })
+    await CustomFetch(user?.accessToken)
+      .patch(`/api/v1/tasks/${boardID}/${taskId}`, newTask)
+      .then(async () => {
+        const res = await CustomFetch(user?.accessToken).get(`/api/v1/tasks/${boardID}`);
+        const { tasks: taskArr } = res.data;
+        dispatch({ type: "UPDATE_TASK_ARR", payload: { taskArr, boardID } });
+      });
 
   };
 
@@ -115,7 +113,9 @@ export const BoardProvider = ({ children }) => {
   // fetch all tasks
   const getAllTask = async (boardID) => {
     try {
-      const resp = await CustomFetch.get(`/api/v1/tasks/${boardID}`);
+      const resp = await CustomFetch(user?.accessToken).get(
+        `/api/v1/tasks/${boardID}`
+      );
       const {tasks} = resp.data;
       dispatch({type: "GET_ALL_TASK", payload: {tasks, boardID}})
       return resp.data;

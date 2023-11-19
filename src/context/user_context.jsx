@@ -5,7 +5,6 @@ import {
   addUserToLocalStorage,
 } from "../utils/localStorage";
 import customFetch from "../utils/axios";
-
 const initialState = {
   user: getUserFromLocalStorage(),
   isLoading: false,
@@ -21,7 +20,7 @@ export const UserProvider = ({ children }) => {
   const registerUser = async (user) => {
     state.isLoading = true;
     try {
-      const res = await customFetch.post("/auth/register", user);
+      const res = await customFetch().post("/auth/register", user);
       dispatch({ type: "REGISTER_USER", payload: res.data });
       addUserToLocalStorage(res.data);
     } catch (error) {
@@ -33,23 +32,11 @@ export const UserProvider = ({ children }) => {
   const loginUser = async (user) => {
     dispatch({ type: "TOGGLE_LOADING" });
     try {
-      const res = await customFetch.post("/auth/login", user);
-      dispatch({ type: "LOGIN_USER", payload: res.data });
-      addUserToLocalStorage(res.data);
+      await customFetch().post("/auth/login", user).then((res) => {
+        dispatch({ type: "LOGIN_USER", payload: res.data });
+        addUserToLocalStorage(res.data);
+      });  
     } catch (error) {
-      if (error.message === "Network Error") {
-        dispatch({
-          type: "UPDATE_ERROR_MSG",
-          payload: "There seems to be something wrong with your connection",
-        });
-      } else {
-        if (error.response.data.message === "User Not found") {
-          dispatch({
-            type: "UPDATE_ERROR_MSG",
-            payload: "Wrong Email or password",
-          });
-        }
-      }
       dispatch({ type: "TOGGLE_LOADING" });
     }
   };

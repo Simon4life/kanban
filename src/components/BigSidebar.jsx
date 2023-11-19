@@ -2,15 +2,19 @@ import React, { useEffect } from "react";
 import Board from "./Board";
 import styled from "styled-components";
 import AddNewBoardForm from "./AddNewBoardForm";
-
+import { useQuery } from "@tanstack/react-query";
 import { useBoardContext } from "../context/board_context";
 
 const BigSidebar = () => {
   const { boards, getBoards } = useBoardContext();
-  useEffect(() => {
-    getBoards();
-  }, []);
+  const { isLoading, error } = useQuery({
+    queryKey: ["boards"],
+    queryFn: getBoards,
+  });
 
+  if(isLoading) {
+    return <h2>Loading</h2>
+  }
   return (
     <Wrapper>
       <div className="sidebar-container show-sidebar">

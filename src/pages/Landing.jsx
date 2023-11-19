@@ -4,6 +4,7 @@ import heroBcg from "../assets/hero-img.png";
 import img1 from "../assets/img_1.jpg";
 import img2 from "../assets/Img_2.jpg";
 import img3 from "../assets/Img_3.png";
+import bacgroundImg from "../assets/background.jpg"
 import { Link } from "react-router-dom";
 
 const Landing = () => {
@@ -16,6 +17,10 @@ const Landing = () => {
               Kanban
             </Link>
           </div>
+          <div>
+            <button className="btn register-btn">Register</button>
+          </div>
+          
         </div>
       </div>
       <div className="hero section-center">
@@ -102,9 +107,16 @@ const Wrapper = styled.main`
   h1 {
     font-size: 2.5rem;
   }
+
+  .logo {
+    font-weight: bold;
+    font-size: 2rem;
+  }
 .nav-center {
   display: flex;
-  justify-content: center;
+  justify-content: space-between;
+  max-width: var(--max-width);
+  margin: 0 auto;
   align-items: center;
   padding: 2rem 0;
   .logo {
@@ -113,6 +125,8 @@ const Wrapper = styled.main`
     display: inline-block;
   }
 }
+
+
 .dark-bcg {
   background: var(--darker-black-bcg);
 }

@@ -1,21 +1,16 @@
 import axios from "axios";
-import { getUserFromLocalStorage } from "./localStorage";
 
-const user = getUserFromLocalStorage();
-let token ;
-if (!user) {
-  token = undefined
-} else {
-  token = user.token;
-  
-}
 
-const CustomFetch = axios.create({
-  baseURL: "https://kanban-api-clone.onrender.com",
-  headers: {
-    "Authorization": `Bearer ${token}`
-  }
-});
+// https://kanban-api-clone.onrender.com
+const CustomFetch = (token = null) => {
+  return axios.create({
+    baseURL: "http://localhost:8000",
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+    withCredentials: true,
+  });
+} 
 
 
 

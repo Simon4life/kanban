@@ -2,7 +2,6 @@ import React, { useState, useRef, useEffect } from "react";
 import styled from "styled-components";
 import { FaTimes } from "react-icons/fa";
 import { useBoardContext } from "../context/board_context";
-import { SmallLoading } from "./Loading";
 
 const SingleTask = ({ title, description, status, subtasks, _id: taskId }) => {
   const {
@@ -60,7 +59,6 @@ const SingleTask = ({ title, description, status, subtasks, _id: taskId }) => {
     e.preventDefault();
     const boardId = boards[boardIndex]._id;
     const updatedTask = { title, description, ...values };
-    console.log("hello")
     updateTask(boardId, taskId, updatedTask)
   };
 
@@ -83,9 +81,9 @@ const SingleTask = ({ title, description, status, subtasks, _id: taskId }) => {
             } of ${subtasks.length}`}
             )
           </h5>
-          {values.subtasks.map((item) => {
+          {values.subtasks.map((item, index) => {
             return (
-              <label className="subtask">
+              <label className="subtask" key={index}>
                 {item.completed ? (
                   <input
                     type="checkbox"
@@ -132,7 +130,6 @@ const SingleTask = ({ title, description, status, subtasks, _id: taskId }) => {
           <button type="button" className="btn btn-danger first" onClick={() => deleteTask(taskId)}>Delete</button>
           <button type="submit" className="btn">Save</button>
         </div>
-        {isTaskEditingLoading ? <SmallLoading /> : null}
       </form>
     </Wrapper>
   );

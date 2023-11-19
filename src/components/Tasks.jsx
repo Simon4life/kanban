@@ -5,7 +5,7 @@ import Task from "./Task";
 import { Loading } from "./Loading";
 
 const Tasks = () => {
-  const { boards, boardIndex, isTaskLoading, updateTask, isTaskEditingLoading } = useBoardContext();
+  const { boards, boardIndex, isTaskLoading, updateTask } = useBoardContext();
   const [taskValues, setTaskValues] = useState([]);
 
   const getStatusNumbers = (status) => {
@@ -114,6 +114,8 @@ const Tasks = () => {
 };
 
 const Wrapper = styled.div`
+  position: fixed;
+  height: 2rem;
   .tasks-container {
     padding: 1.5rem;
     width: 100%;
