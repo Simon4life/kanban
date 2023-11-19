@@ -11,6 +11,9 @@ const user_reducer = (state, action) => {
   if (action.type === "UPDATE_ERROR_MSG") {
     return { ...state, errorMessage: action.payload };
   }
+  if(action.type === "LOGOUT_USER") {
+    return {...state, user: null}
+  }
 };
 
 export default user_reducer;

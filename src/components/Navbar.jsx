@@ -4,13 +4,14 @@ import AddNewBoardForm from "./AddNewBoardForm"
 import { GoPlus } from "react-icons/go";
 import { FaCaretDown } from "react-icons/fa";
 import { useBoardContext } from "../context/board_context";
-import { removeUserFromLocalStorage } from "../utils/localStorage";
+import { useUserContext } from "../context/user_context";
 import { Link } from "react-router-dom";
-
 const Navbar = () => {
 
-  const { openCreatingModal, boards, boardIndex, updateBoardIndex } =
+  const { openCreatingModal, boards, boardIndex, updateBoardIndex, } =
     useBoardContext();
+
+    const {logoutUser} = useUserContext();
     
   const [screenSize, setScreenSize] = useState(window.innerWidth);
   const [showDropdown, setShowDropdown] = useState(false);
@@ -71,7 +72,7 @@ const Navbar = () => {
           <Link
             to="/landing"
             className="btn logout-btn"
-            onClick={removeUserFromLocalStorage}
+            onClick={logoutUser}
           >
             Logout
           </Link>

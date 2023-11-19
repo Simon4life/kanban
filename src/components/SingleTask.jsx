@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useRef } from "react";
 import styled from "styled-components";
 import { FaTimes } from "react-icons/fa";
 import { useBoardContext } from "../context/board_context";
@@ -137,10 +137,13 @@ const SingleTask = ({ title, description, status, subtasks, _id: taskId }) => {
 
 const Wrapper = styled.div`
   .desc {
-    color: var(--grey-200);
+    color: #f0f0f0;
+    font-size: 1.2rem;
+    letter-spacing: 1px;
   }
   h5 {
     margin-bottom: 0.2rem;
+    font-size: 1.2rem;
   }
   .subtask-container {
     width: 100%;

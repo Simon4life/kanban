@@ -3,6 +3,7 @@ import reducer from "../reducers/user_reducer";
 import {
   getUserFromLocalStorage,
   addUserToLocalStorage,
+  removeUserFromLocalStorage
 } from "../utils/localStorage";
 import customFetch from "../utils/axios";
 const initialState = {
@@ -41,8 +42,16 @@ export const UserProvider = ({ children }) => {
     }
   };
 
+  const logoutUser = async () => {
+    await customFetch().get("/auth/logout").then(() => {
+    dispatch({type: "LOGOUT_USER"});
+    removeUserFromLocalStorage();
+    });
+    
+  }
+
   return (
-    <UserContext.Provider value={{ ...state, registerUser, loginUser }}>
+    <UserContext.Provider value={{ ...state, registerUser, loginUser, logoutUser }}>
       {children}
     </UserContext.Provider>
   );
