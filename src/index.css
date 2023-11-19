@@ -241,6 +241,9 @@ ul {
 .btn-block {
   height: 35px;
 }
+.form-input:focus {
+  border: 2px solid white;
+}
 .form-row {
   margin-bottom: 1rem;
 }

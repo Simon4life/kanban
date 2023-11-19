@@ -114,12 +114,13 @@ const Tasks = () => {
 };
 
 const Wrapper = styled.div`
-  position: fixed;
+  @media screen and (min-width: 992px) {
+    position: fixed;
+  }
   height: 2rem;
   .tasks-container {
     padding: 1.5rem;
     width: 100%;
-    // position: fixed;
     overflow: scroll;
     height: calc(100vh - 5rem);
     header {
@@ -163,7 +164,7 @@ const Wrapper = styled.div`
       grid-template-columns: 1fr 1fr 1fr;
       gap: 1rem;
     }
-    @media (min-width: 992px) {
+    @media screen and (min-width: 992px) {
       margin-top: 5rem;
       height: 580px;
       width: calc(100vw - 345px);
