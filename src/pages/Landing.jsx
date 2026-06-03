@@ -1,105 +1,34 @@
 import React from "react";
 import styled from "styled-components";
-import heroBcg from "../assets/hero-img.png";
-import img1 from "../assets/img_1.jpg";
-import img2 from "../assets/Img_2.jpg";
-import img3 from "../assets/Img_3.png";
-import bacgroundImg from "../assets/background.jpg"
+import Header from "../components/landing/Header";
+import Hero from "../components/landing/Hero";
+import KanbanPreview from "../components/landing/KanbanPreview";
+// import SocialProof from "../components/landing/SocialProof";
+import Features from "../components/landing/Features";
+import Footer from "../components/landing/Footer";
+import FAQ from "../components/landing/FAQ";
+import FeatureBreakdown from "../components/landing/FeatureBreakdown";
+import CTA from "../components/landing/CTA";
+
 import { Link } from "react-router-dom";
 
 const Landing = () => {
   return (
-    <Wrapper>
-      <div className="nav">
-        <div className="nav-center">
-          <div>
-            <Link className="logo" to="/landing">
-              Kanban
-            </Link>
-          </div>
-          <div>
-            <button className="btn register-btn">Register</button>
-          </div>
-          
-        </div>
-      </div>
-      <div className="hero section-center">
-        <div>
-          <h1>Organize Your Tasks with Kanban</h1>
-          <p>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Itaque
-            labore sed rerum! Culpa nisi, nobis amet sapiente molestiae ipsa
-            magnam labore quidem dignissimos ullam officia magni sequi dolorem
-            saepe ducimus.
-          </p>
-          <Link to="/register" className="btn">
-            Get Started
-          </Link>
-        </div>
-        <div className="img-container">
-          <img src={heroBcg} alt="hero-bcg" className="main-img" />
-        </div>
-      </div>
-      <section className="section-center hero-section-1 ">
-        <div>
-          <h3>From What Next to What Next</h3>
-          <p>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Fugiat quam
-            illum necessitatibus nobis laudantium tempore alias ex voluptates
-            dolor aut?
-          </p>
-        </div>
+    <>
+      <Header />
 
-        <div>
-          <img src={img1} className="temp-img" alt="Illustration" />
-        </div>
-      </section>
-      <section className="section-center hero-section-1">
-        <div>
-          <img src={img2} className="temp-img" alt="Illustration" />
-        </div>
-        <div className="second">
-          <h3>Focust Your Energy on the Right things</h3>
-          <p>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Nam illo
-            repellendus consectetur saepe, minima nisi fuga vero eos quod rem?
-          </p>
-        </div>
-      </section>
-      <section className="section-center hero-section-1">
-        <div>
-          <h3>Track realtime updates, on every task push</h3>
-          <p>
-            Lorem ipsum dolor, sit amet consectetur adipisicing elit. Enim quas
-            dolor eaque corporis, autem at fugit id repellendus est temporibus.
-          </p>
-        </div>
-        <div>
-          <img src={img3} className="temp-img" alt="Illustration" />
-        </div>
-      </section>
-      <footer className="site-footer">
-        <div className="container section-center">
-          <div className="row">
-            <div>
-              <h6>About</h6>
-              <p className="text-justify">
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Minus
-                reprehenderit enim iste non incidunt atque ea animi molestias
-                quo. Illo impedit blanditiis deleniti qui, repellendus quisquam
-                aut voluptatem necessitatibus eos?
-              </p>
-            </div>
-            <div className="copyright-text">
-              <p>
-                Copyright &copy; 2023 All Rights Reserved by
-                <Link to="/landing"> Kanban</Link>.
-              </p>
-            </div>
-          </div>
-        </div>
-      </footer>
-    </Wrapper>
+      <main>
+        <Hero />
+        <KanbanPreview />
+        {/* <SocialProof /> */}
+        <Features />
+        <FeatureBreakdown />
+        <FAQ/>
+        <CTA />
+      </main>
+
+      <Footer />
+    </>
   );
 };
 
