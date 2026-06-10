@@ -21,7 +21,7 @@ export const UserProvider = ({ children }) => {
   const registerUser = async (user) => {
     state.isLoading = true;
     try {
-      const res = await customFetch().post("/auth/register", user);
+      const res = await axios.post("https://kanban-api-6bx9.onrender.com/auth/register", user);
       dispatch({ type: "REGISTER_USER", payload: res.data });
       addUserToLocalStorage(res.data);
     } catch (error) {
@@ -33,7 +33,7 @@ export const UserProvider = ({ children }) => {
   const loginUser = async (user) => {
     dispatch({ type: "TOGGLE_LOADING" });
     try {
-      await customFetch().post("/auth/login", user).then((res) => {
+      await axios.post("https://kanban-api-6bx9.onrender.com/auth/login", user).then((res) => {
         dispatch({ type: "LOGIN_USER", payload: res.data });
         addUserToLocalStorage(res.data);
       });  
