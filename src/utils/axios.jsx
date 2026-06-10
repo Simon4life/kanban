@@ -4,7 +4,7 @@ import axios from "axios";
 // https://kanban-api-clone.onrender.com
 const CustomFetch = (token = null) => {
   return axios.create({
-    baseURL: "http://localhost:8000",
+    baseURL: "https://kanban-api-6bx9.onrender.com/api/v1",
     headers: {
       Authorization: `Bearer ${token}`,
     },

@@ -1,34 +1,24 @@
-import FeatureCard from "./FeaturesCard"
+import styled from "styled-components";
+
+const Grid = styled.section`
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+  padding: 80px;
+`;
+
+const Card = styled.div`
+  background: #1c1b1b;
+  padding: 24px;
+  border-radius: 12px;
+`;
 
 export default function Features() {
-  const features = [
-    {
-      title: "Automated Workflows",
-      description:
-        "Automate status updates and task handoffs.",
-    },
-    {
-      title: "Team Collaboration",
-      description:
-        "Real-time comments and mentions.",
-    },
-    {
-      title: "Real-time Analytics",
-      description:
-        "Identify bottlenecks instantly.",
-    },
-  ];
-
   return (
-    <section className="py-32 max-w-7xl mx-auto px-5 md:px-20">
-      <div className="grid md:grid-cols-3 gap-12">
-        {features.map((feature) => (
-          <FeatureCard
-            key={feature.title}
-            {...feature}
-          />
-        ))}
-      </div>
-    </section>
+    <Grid>
+      <Card>Automated Workflows</Card>
+      <Card>Team Collaboration</Card>
+      <Card>Real-time Analytics</Card>
+    </Grid>
   );
 }

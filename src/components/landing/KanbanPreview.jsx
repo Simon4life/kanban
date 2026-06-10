@@ -1,54 +1,47 @@
-import KanbanColumn from "./KanbanColumn";
+import styled from "styled-components";
 
-const todo = [
-  {
-    id: 1,
-    title: "Refactor navigation system",
-    tag: "Design",
-    tagColor: "text-orange-400",
-  },
-];
+const Wrapper = styled.section`
+  padding: 80px 20px;
+  overflow-x: auto;
+`;
 
-const doing = [
-  {
-    id: 2,
-    title: "Fix persistent latency",
-    tag: "High Priority",
-    tagColor: "text-purple-400",
-  },
-];
+const Board = styled.div`
+  display: flex;
+  gap: 24px;
+  min-width: 900px;
+`;
 
-const done = [
-  {
-    id: 3,
-    title: "Setup CI/CD pipeline",
-  },
-];
+const Column = styled.div`
+  width: 320px;
+`;
+
+const Card = styled.div`
+  background: rgba(20, 19, 19, 0.8);
+  padding: 16px;
+  border-radius: 12px;
+  margin-bottom: 16px;
+`;
 
 export default function KanbanPreview() {
   return (
-    <section className="max-w-7xl mx-auto px-5 md:px-20 pb-32">
-      <div className="glass-card rounded-xl p-8 overflow-x-auto">
-        <div className="flex gap-6 min-w-max">
-          <KanbanColumn
-            title="To Do"
-            count={todo.length}
-            tasks={todo}
-          />
+    <Wrapper>
+      <Board>
+        <Column>
+          <h4>To Do</h4>
+          <Card>Refactor navigation</Card>
+          <Card>Write API docs</Card>
+        </Column>
 
-          <KanbanColumn
-            title="Doing"
-            count={doing.length}
-            tasks={doing}
-          />
+        <Column>
+          <h4>Doing</h4>
+          <Card>Fix websocket latency</Card>
+        </Column>
 
-          <KanbanColumn
-            title="Done"
-            count={done.length}
-            tasks={done}
-          />
-        </div>
-      </div>
-    </section>
+        <Column>
+          <h4>Done</h4>
+          <Card>Setup CI/CD</Card>
+        </Column>
+      </Board>
+    </Wrapper>
   );
 }
