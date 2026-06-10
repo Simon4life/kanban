@@ -38,7 +38,7 @@ export const BoardProvider = ({ children }) => {
   // fetch boards
   const getBoards =  async () => {
     try {
-      const res = await CustomFetch(user?.accessToken).get("/api/v1/boards");
+      const res = await CustomFetch(user?.accessToken).get("/boards");
       dispatch({ type: "GET_BOARDS", payload: res.data });
       return res.data;
     } catch (error) {
@@ -68,7 +68,7 @@ export const BoardProvider = ({ children }) => {
   const addNewTask = async (task) => {
     const boardID = state.boards[state.boardIndex]._id;
 
-    await CustomFetch(user?.accessToken).post(`/api/v1/tasks/${boardID}`,
+    await CustomFetch(user?.accessToken).post(`/tasks/${boardID}`,
       task,
     ).then((res) => {
       const taskArr = res.data.tasks.tasks
@@ -84,7 +84,7 @@ export const BoardProvider = ({ children }) => {
     const boardId = state.boards[state.boardIndex]._id;
     
     await CustomFetch(user?.accessToken)
-      .delete(`/api/v1/tasks/${boardId}/${taskId}`)
+      .delete(`/tasks/${boardId}/${taskId}`)
       .then(() => {
         notifyUser(`has been deleted from tasks list`);
         dispatch({ type: "REMOVE_TASK", payload: { taskId, boardId } });
@@ -97,9 +97,9 @@ export const BoardProvider = ({ children }) => {
 
   const updateTask = async (boardID, taskId, newTask) => {
     await CustomFetch(user?.accessToken)
-      .patch(`/api/v1/tasks/${boardID}/${taskId}`, newTask)
+      .patch(`/tasks/${boardID}/${taskId}`, newTask)
       .then(async () => {
-        const res = await CustomFetch(user?.accessToken).get(`/api/v1/tasks/${boardID}`);
+        const res = await CustomFetch(user?.accessToken).get(`/tasks/${boardID}`);
         const { tasks: taskArr } = res.data;
         dispatch({ type: "UPDATE_TASK_ARR", payload: { taskArr, boardID } });
       });
@@ -114,7 +114,7 @@ export const BoardProvider = ({ children }) => {
   const getAllTask = async (boardID) => {
     try {
       const resp = await CustomFetch(user?.accessToken).get(
-        `/api/v1/tasks/${boardID}`
+        `/tasks/${boardID}`
       );
       const {tasks} = resp.data;
       dispatch({type: "GET_ALL_TASK", payload: {tasks, boardID}})
